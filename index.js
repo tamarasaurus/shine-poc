@@ -16,7 +16,7 @@ app.use(function(req, res, next) {
 
 app.post('/hook', cors(), (req, res) => {
   console.log('body', req.body);
-  res.send(200);
+  res.sendStatus(200);
 });
 
 app.listen(process.env.PORT || '8080', () => console.log(`Example app listening on port 8000`))
