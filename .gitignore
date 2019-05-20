@@ -59,3 +59,7 @@ typings/
 
 # next.js build output
 .next
+
+src/inspectors/pim-community-dev
+pim-community-dev
+tmp
