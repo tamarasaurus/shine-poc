@@ -10,26 +10,24 @@ export default class Pipeline {
   }
 
   launch() {
+    // Use a static config object instead of bash scripts
     const inspectors = {
+      scrutinizer: 'scrutinizer.sh',
       phpstan: 'phpstan.sh',
-      phpmetrics: 'phpmetrics.sh'
+      phpmetrics: 'phpmetrics.sh',
     }
 
-    const analysis = [];
-
-    execSync(resolve(process.cwd(), './src/setup.sh'));
+    const analysis = {};
+    execSync(resolve(process.cwd(), './src/setup.sh'), { stdio: 'inherit' });
 
     for (let inspector in inspectors) {
       const script = inspectors[inspector];
+      console.log('Start', inspector)
       const data = execSync(resolve(process.cwd(), `./src/inspectors/${script}`))
       analysis[inspector] = JSON.parse(data.toString());
     }
 
     console.log(analysis);
-    // execSync(resolve(process.cwd(), './src/teardown.sh'));
-  }
-
-  parseInspectorOutput() {
-
+    execSync(resolve(process.cwd(), './src/teardown.sh'));
   }
 }
