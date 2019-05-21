@@ -1,5 +1,14 @@
 {
   "phpmetrics": {
     "inspect": "src/inspectors/phpmetrics.sh"
+  },
+  "phpstan": {
+    "inspect": "src/inspectors/phpstan.sh"
+  },
+  "sonarcube": {
+    "inspect": "src/inspectors/sonarcube.sh"
+  },
+  "scrutinizer": {
+    "inspect": "src/inspectors/scrutinizer.sh"
   }
 }
