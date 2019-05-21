@@ -1,5 +1,4 @@
 import { execSync } from 'child_process';
-import { resolve } from 'path';
 import * as Bull from 'bull'
 import * as config from './inspectors/config.json'
 
@@ -26,40 +25,37 @@ export default class Pipeline {
   async runInspection(job: Bull.Job, done: Bull.DoneCallback) {
     const inspectorConfig: InspectorConfig = config;
     const inspector = inspectorConfig[job.data.name]
-    const { setup, inspect, teardown } = inspector;
+    const { inspect } = inspector;
+    const COMMIT = this.eventData.commit;
+
+    console.log('Start', job.data.name);
 
     try {
-      if (setup) {
-        await execSync(setup)
-      }
-
-      const data = await execSync(inspect);
-
-      console.log(data.toString())
-      if (teardown) {
-        await execSync(teardown)
-      }
-
+      const data = await execSync(inspect, { env: { COMMIT }});
       done(null, JSON.parse(data.toString()));
     } catch (e) {
+      console.log(e)
       done(e);
     }
   }
 
-  launch() {
-    const queue = new Bull('inspect',  'redis://localhost:6379');
+  async launch() {
+    const queue = new Bull('inspect',  'redis://localhost:6379', {
+      settings: {
+        stalledInterval: 0,
+        lockDuration: 999999999
+      }
+    });
 
-    queue.clean(10).then(() => {
-      queue.process('inspect', 1, this.runInspection)
+    await Promise.all([queue.clean(10), queue.clean(10, 'failed')])
 
-      const [name, options] = Object.entries(config)[0]
-      // .forEach(([name, options]) => {
-        console.log(name, options)
-        queue.add('inspect', Object.assign({
-          name,
-          inspectorName: name
-        }, options));
-      // })
+    queue.process('inspect', 1, this.runInspection.bind(this))
+
+    const COMMIT = this.eventData.commit;
+    await execSync('./src/setup.sh', { stdio: 'inherit', env: { COMMIT }})
+
+    Object.entries(config).forEach(([name, options]) => {
+      queue.add('inspect', Object.assign({ name, inspectorName: name }, options));
     })
   }
 }

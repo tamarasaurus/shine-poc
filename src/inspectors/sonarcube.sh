@@ -1,1 +1,1 @@
-echo 'sonar js'
+echo '{}'

@@ -1,18 +1,5 @@
 {
   "phpmetrics": {
-    "setup": "src/setup.sh",
-    "inspect": "src/inspectors/phpmetrics.sh",
-    "teardown": "src/teardown.sh"
-  },
-  "phpstan": {
-    "setup": "src/setup.sh",
-    "inspect": "src/inspectors/phpmetrics.sh",
-    "teardown": "src/teardown.sh"
-  },
-  "sonarcube": {
-    "inspect": "src/inspectors/sonarcube.sh"
-  },
-  "scrutinizer": {
-    "inspect": "src/inspectors/scrutinizer.sh"
+    "inspect": "src/inspectors/phpmetrics.sh"
   }
 }
