@@ -8,4 +8,5 @@ before_install:
 
 install:
   - ls
+  - composer install
   - ./src/inspectors/phpmetrics.sh

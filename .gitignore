@@ -63,3 +63,5 @@ typings/
 src/inspectors/pim-community-dev
 pim-community-dev
 tmp
+
+vendor

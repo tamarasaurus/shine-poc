@@ -1,0 +1,6 @@
+{
+    "require": {
+        "phpmetrics/phpmetrics": "^2.4",
+        "phpstan/phpstan": "^0.11.7"
+    }
+}
