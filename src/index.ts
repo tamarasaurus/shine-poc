@@ -2,7 +2,7 @@ import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 
-const tmpData: any = {}
+const tmpData: any = []
 const app = express()
 
 function pullRequestIsMergedOnMaster(pullRequest) {
@@ -20,7 +20,7 @@ app.use(function(req, res, next) {
 
 app.post('/job', cors(), (req, res) => {
   const body: any = req.body;
-  tmpData[body.name] = body.result
+  tmpData.push(body.result)
   console.log(tmpData);
 })
 
