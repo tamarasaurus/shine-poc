@@ -1,8 +1,8 @@
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
-import Pipeline from './pipeline';
 
+const tmpData: any = {}
 const app = express()
 
 function pullRequestIsMergedOnMaster(pullRequest) {
@@ -18,16 +18,24 @@ app.use(function(req, res, next) {
   next()
 })
 
+app.post('/job', cors(), (req, res) => {
+  const body: any = req.body;
+  tmpData[body.name] = body.result
+  console.log(tmpData);
+})
+
 app.post('/hook', cors(), (req, res): void => {
   const pullRequest = req.body.pull_request;
   if (pullRequestIsMergedOnMaster(pullRequest)) {
 
-    const pipeline = new Pipeline({
-      user: pullRequest.merged_by.login,
-      commit: '',
-    });
+    // Launch travis with ENV variable for commit
 
-    pipeline.launch();
+    // const pipeline = new Pipeline({
+    //   user: pullRequest.merged_by.login,
+    //   commit: '',
+    // });
+
+    // pipeline.launch();
   }
 
   res.sendStatus(200);
