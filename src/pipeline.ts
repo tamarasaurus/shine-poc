@@ -3,11 +3,7 @@ import * as Bull from 'bull'
 import * as config from './inspectors/config.json'
 
 interface InspectorConfig {
-  [name: string]: {
-    setup?: string;
-    inspect: string;
-    teardown?: string;
-  }
+  [name: string]: string
 }
 
 interface EventData {
@@ -25,13 +21,12 @@ export default class Pipeline {
   async runInspection(job: Bull.Job, done: Bull.DoneCallback) {
     const inspectorConfig: InspectorConfig = config;
     const inspector = inspectorConfig[job.data.name]
-    const { inspect } = inspector;
     const COMMIT = this.eventData.commit;
 
     console.log('Start', job.data.name);
 
     try {
-      const data = await execSync(inspect, { env: { COMMIT }});
+      const data = await execSync(inspector, { env: { COMMIT }});
       done(null, JSON.parse(data.toString()));
     } catch (e) {
       console.log(e)
@@ -49,13 +44,38 @@ export default class Pipeline {
 
     await Promise.all([queue.clean(10), queue.clean(10, 'failed')])
 
+    const isEveryJobComplete = () => {
+      return queue.getCompletedCount().then((completedCount) => {
+          return completedCount === Object.values(config).length
+      })
+    }
+
+    const getAllJobResults = async () => {
+      const jobs = await queue.getJobs(['completed']);
+      const results: { [name: string]: any } = {}
+
+      jobs.forEach((job: Bull.Job) => {
+        results[job.data.inspectorName] = job.returnvalue;
+      })
+
+      return results
+    }
+
+    queue.on('completed', async (job, result) => {
+        if (await isEveryJobComplete()) {
+            const allJobData = await getAllJobResults();
+            console.log('All jobs done: ', allJobData);
+            process.exit(0);
+        }
+    })
+
     queue.process('inspect', 1, this.runInspection.bind(this))
 
     const COMMIT = this.eventData.commit;
-    await execSync('./src/setup.sh', { stdio: 'inherit', env: { COMMIT }})
+    // await execSync('./src/setup.sh', { stdio: 'inherit', env: { COMMIT }})
 
-    Object.entries(config).forEach(([name, options]) => {
-      queue.add('inspect', Object.assign({ name, inspectorName: name }, options));
+    Object.entries(config).forEach(([name, script]) => {
+      queue.add('inspect', { name, inspectorName: name, script });
     })
   }
 }
