@@ -1,0 +1,6 @@
+{
+  "phpmetrics": "src/inspectors/phpmetrics.sh",
+  "phpstan": "src/inspectors/phpstan.sh",
+  "sonarcube": "src/inspectors/sonarcube.sh",
+  "scrutinizer": "src/inspectors/scrutinizer.sh"
+}
