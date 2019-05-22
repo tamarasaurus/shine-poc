@@ -22,6 +22,7 @@ app.post('/job', cors(), (req, res) => {
   const body: any = req.body;
   tmpData.push(body)
   console.log(tmpData);
+  res.sendStatus(200);
 })
 
 app.post('/hook', cors(), (req, res): void => {
