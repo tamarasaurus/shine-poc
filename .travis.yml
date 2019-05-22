@@ -6,7 +6,7 @@ php:
 addons:
   apt:
     packages:
-      -php7.2-dom
+      - php7.2-dom
 
 before_install:
   - git clone git@github.com:akeneo/pim-community-dev.git
