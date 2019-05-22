@@ -20,7 +20,7 @@ app.use(function(req, res, next) {
 
 app.post('/job', cors(), (req, res) => {
   const body: any = req.body;
-  tmpData.push(body.result)
+  tmpData.push(body)
   console.log(tmpData);
 })
 
