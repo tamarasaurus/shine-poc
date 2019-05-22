@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.ts",
   "scripts": {
-    "start": "ts-node src/index.ts",
-    "test": "ts-node test/pipeline.test.ts",
+    "start": "./node_modules/.bin/ts-node src/index.ts",
+    "test": "./node_modules/.bin/ts-node test/pipeline.test.ts",
     "monitor": "node src/monitor.js"
   },
   "repository": {
