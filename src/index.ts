@@ -72,12 +72,12 @@ app.post('/hook', cors(), (req, res): void => {
   const pullRequest = req.body.pull_request;
   const commit = req.body.after
 
-  console.log('Run analysis for', commit)
+  console.log('Run analysis for', commit, pullRequest.user.login)
   // if (pullRequestIsMergedOnMaster(pullRequest)) {
   const data = execSync('./src/trigger_inspection.sh', {
     env: {
       COMMIT: commit,
-      USER: pullRequest.merged_by_login,
+      USER: pullRequest.user.login,
       TRAVIS_TOKEN: process.env.TRAVIS_TOKEN
     }})
 
