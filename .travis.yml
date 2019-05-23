@@ -9,3 +9,6 @@ before_install:
 
 script:
   - ./src/inspectors/phpmetrics.sh
+  - ./src/inspectors/phpstan.sh
+  - ./src/inspectors/scrutinizer.sh
+  - ./src/inspectors/sonarcube.sh
