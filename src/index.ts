@@ -23,21 +23,35 @@ app.use(function(req, res, next) {
 app.post('/job/sonar', cors(), (req, res) => {
   const inspection = req.body;
   const commit = req.body.properties['sonar.analysis.commit'];
+  const user = req.body.properties['sonar.analysis.user'];
 
   if (!tmpData[commit]) {
-    tmpData[commit] = {}
+    tmpData[commit] = []
   }
 
-  tmpData[commit]['sonarcube'] = inspection
+  tmpData[commit].push({
+    commit,
+    name: 'sonar',
+    user,
+    inspection
+  })
+
   res.sendStatus(200);
 })
 
 app.post('/job', cors(), (req, res) => {
-  const { commit, name, inspection }: any = req.body;
+  const { commit, name, inspection, user }: any = req.body;
   if (!tmpData[commit]) {
-    tmpData[commit] = {}
+    tmpData[commit] = []
   }
-  tmpData[commit][name] = inspection
+
+  tmpData[commit].push({
+    commit,
+    name,
+    user,
+    inspection
+  })
+
   res.sendStatus(200);
 })
 

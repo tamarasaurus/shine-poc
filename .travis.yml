@@ -19,4 +19,4 @@ script:
   - ./src/inspectors/phpmetrics.sh
   - ./src/inspectors/phpstan.sh
   - ./src/inspectors/scrutinizer.sh
-  - sonar-scanner -Dsonar.projectKey=tamarasaurus_pim-community-dev -Dsonar.projectBaseDir=pim-community-dev -Dsonar.analysis.commit=$COMMIT
+  - sonar-scanner -Dsonar.projectKey=tamarasaurus_pim-community-dev -Dsonar.projectBaseDir=pim-community-dev -Dsonar.analysis.commit=$COMMIT -Dsonar.analysis.user=$USER
