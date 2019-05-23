@@ -6,6 +6,7 @@ php:
 before_install:
   - git clone https://github.com/tamarasaurus/pim-community-dev.git
   - cd pim-community-dev && git checkout $COMMIT
+  - cd ../
   - composer install
 
 script:
