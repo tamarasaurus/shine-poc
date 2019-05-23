@@ -4,7 +4,7 @@ export default class Storage {
   insert({ commit, user, name, inspection}: { commit: string, user: string, name: string, inspection: any}) {
     return query(`
       INSERT INTO inspection (commit, github_user, name, repository, data)
-      VALUES ($1, $2, $3, $4)
+      VALUES ($1, $2, $3, $4, $5)
     `, [
       commit,
       user,
