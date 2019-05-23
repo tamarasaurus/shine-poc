@@ -44,12 +44,13 @@ app.get('/index/:commit', cors(), (req, res) => {
 
 app.post('/hook', cors(), (req, res): void => {
   const pullRequest = req.body.pull_request;
+  const commit = req.body.after
 
-  console.log('Run analysis for', merge_commit_sha)
+  console.log('Run analysis for', commit)
   // if (pullRequestIsMergedOnMaster(pullRequest)) {
   const data = execSync('./src/trigger_inspection.sh', {
     env: {
-      COMMIT: req.body.after,
+      COMMIT: commit,
       USER: pullRequest.merged_by_login,
       TRAVIS_TOKEN: process.env.TRAVIS_TOKEN
     }})
