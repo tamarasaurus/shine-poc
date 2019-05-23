@@ -7,8 +7,7 @@ BODY="{
  \"config\": {
    \"env\": {
      \"matrix\": [\"COMMIT=$COMMIT\"]
-   },
-   \"script\": \"echo FOO\"
+   }
   }
 }}"
 
