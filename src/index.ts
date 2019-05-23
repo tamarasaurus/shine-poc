@@ -2,8 +2,9 @@ import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 import { execSync } from 'child_process';
+import Inspection from './storage/inspection'
 
-const tmpData: any = {}
+const inspection = new Inspection();
 const app = express()
 
 function pullRequestIsMergedOnMaster(pullRequest) {
@@ -21,47 +22,48 @@ app.use(function(req, res, next) {
 })
 
 app.post('/job/sonar', cors(), (req, res) => {
-  const inspection = req.body;
+  const data = req.body;
   const commit = req.body.properties['sonar.analysis.commit'];
   const user = req.body.properties['sonar.analysis.user'];
+  const name = 'sonar'
 
-  if (!tmpData[commit]) {
-    tmpData[commit] = []
-  }
-
-  tmpData[commit].push({
-    commit,
-    name: 'sonar',
-    user,
-    inspection
+  inspection.create({commit, user, name, inspection: data}).then(() => {
+    res.sendStatus(200)
+  }).catch((e) => {
+    console.log(e);
+    res.sendStatus(500)
   })
-
-  res.sendStatus(200);
 })
 
 app.post('/job', cors(), (req, res) => {
   const { commit, name, inspection, user }: any = req.body;
-  if (!tmpData[commit]) {
-    tmpData[commit] = []
-  }
+  const data = req.body;
 
-  tmpData[commit].push({
-    commit,
-    name,
-    user,
-    inspection
+  inspection.create({commit, user, name, inspection: data}).then(() => {
+    res.sendStatus(200)
+  }).catch((e) => {
+    console.log(e);
+    res.sendStatus(500)
   })
-
-  res.sendStatus(200);
 })
 
 app.get('/analysis', cors(), (req, res) => {
-  res.json(tmpData);
+  inspection.findAll().then((result) => {
+    res.json(result.rows)
+  }).catch((e) => {
+    console.log(e);
+    res.sendStatus(404)
+  });
 })
 
 app.get('/analysis/:commit', cors(), (req, res) => {
   const { commit } = req.params;
-  res.json(tmpData[commit] || {});
+  inspection.findByCommit(commit).then((result) => {
+    res.json(result.rows)
+  }).catch((e) => {
+    console.log(e);
+    res.sendStatus(404)
+  });
 })
 
 app.get('/index/:commit', cors(), (req, res) => {
