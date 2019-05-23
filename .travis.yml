@@ -5,6 +5,7 @@ php:
 
 before_install:
   - git clone https://github.com/akeneo/pim-community-dev.git
+  - cd pim-community-dev && git checkout $COMMIT
   - composer install
 
 script:
