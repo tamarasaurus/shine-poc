@@ -5,7 +5,7 @@ echo 'Trigger inspection'
 BODY="{
  \"request\": {
  \"message\": \"API Request\",
- \"branch\":\"travis\",
+ \"branch\":\"master\",
  \"config\": {
    \"env\": {
      \"matrix\": [\"COMMIT=$COMMIT USER=$USER\"]
