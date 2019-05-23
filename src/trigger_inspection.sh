@@ -8,7 +8,7 @@ BODY="{
  \"branch\":\"travis\",
  \"config\": {
    \"env\": {
-     \"matrix\": [\"COMMIT=$COMMIT\", \"USER=$USER\"]
+     \"matrix\": [\"COMMIT=$COMMIT USER=$USER\"]
    }
   }
 }}"
