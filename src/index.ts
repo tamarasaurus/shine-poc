@@ -47,7 +47,7 @@ app.post('/hook', cors(), (req, res): void => {
   const merge_commit_sha = req.body
 
   // if (pullRequestIsMergedOnMaster(pullRequest)) {
-  const data = execSync('./trigger_inspections.sh', {
+  const data = execSync('./src/trigger_inspections.sh', {
     env: { COMMIT: merge_commit_sha, USER: pullRequest.merged_by_login } })
 
   console.log(data);
