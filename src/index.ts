@@ -2,7 +2,7 @@ import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 
-const tmpData: any = []
+const tmpData: any = {}
 const app = express()
 
 function pullRequestIsMergedOnMaster(pullRequest) {
@@ -19,9 +19,11 @@ app.use(function(req, res, next) {
 })
 
 app.post('/job', cors(), (req, res) => {
-  // Store the commit in tmpData
-  const body: any = req.body;
-  tmpData.push(body)
+  const { commit, name, inspection }: any = req.body;
+  if (!tmpData[commit]) {
+    tmpData[commit] = {}
+  }
+  tmpData[commit][name] = inspection
   res.sendStatus(200);
 })
 
