@@ -3,6 +3,12 @@ language: php
 php:
     - 7.2
 
+addons:
+  sonarcloud:
+    organization: "tamarasaurus-github" # the key of the org you chose at step #3
+    token:
+      secure: "*********" # encrypted value of your token
+
 before_install:
   - git clone https://github.com/tamarasaurus/pim-community-dev.git
   - cd pim-community-dev && git checkout $COMMIT
@@ -13,4 +19,5 @@ script:
   - ./src/inspectors/phpmetrics.sh
   - ./src/inspectors/phpstan.sh
   - ./src/inspectors/scrutinizer.sh
-  - ./src/inspectors/sonarcube.sh
+  # - ./src/inspectors/sonarcube.sh
+  - cd pim-community-dev && sonar-scanner
