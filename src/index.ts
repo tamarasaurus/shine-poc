@@ -19,10 +19,23 @@ app.use(function(req, res, next) {
 })
 
 app.post('/job', cors(), (req, res) => {
+  // Store the commit in tmpData
   const body: any = req.body;
   tmpData.push(body)
-  console.log(tmpData);
   res.sendStatus(200);
+})
+
+app.get('/analysis', cors(), (req, res) => {
+  res.json(tmpData);
+})
+
+app.get('/analysis/:commit', cors(), (req, res) => {
+  const { commit } = req.params;
+  res.json(tmpData[commit]);
+})
+
+app.get('/index/:commit', cors(), (req, res) => {
+  res.json({ index: 1.234341 })
 })
 
 app.post('/hook', cors(), (req, res): void => {
