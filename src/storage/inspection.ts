@@ -1,6 +1,6 @@
 import query from './query';
 
-export default class Inspection {
+export default class Storage {
   insert({ commit, user, name, inspection}: { commit: string, user: string, name: string, inspection: any}) {
     return query(`
       INSERT INTO inspection (commit, github_user, name, repository, data)

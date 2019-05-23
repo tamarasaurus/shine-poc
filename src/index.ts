@@ -2,9 +2,9 @@ import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 import { execSync } from 'child_process';
-import Inspection from './storage/inspection'
+import Storage from './storage/inspection'
 
-const inspection = new Inspection();
+const storage = new Storage();
 const app = express()
 
 function pullRequestIsMergedOnMaster(pullRequest) {
@@ -22,12 +22,12 @@ app.use(function(req, res, next) {
 })
 
 app.post('/job/sonar', cors(), (req, res) => {
-  const data = req.body;
+  const inspection = req.body;
   const commit = req.body.properties['sonar.analysis.commit'];
   const user = req.body.properties['sonar.analysis.user'];
   const name = 'sonar'
 
-  inspection.insert({commit, user, name, inspection: data}).then(() => {
+  storage.insert({commit, user, name, inspection}).then(() => {
     res.sendStatus(200)
   }).catch((e) => {
     console.log(e);
@@ -37,9 +37,8 @@ app.post('/job/sonar', cors(), (req, res) => {
 
 app.post('/job', cors(), (req, res) => {
   const { commit, name, inspection, user }: any = req.body;
-  const data = req.body;
 
-  inspection.create({commit, user, name, inspection: data}).then(() => {
+  storage.insert({commit, user, name, inspection}).then(() => {
     res.sendStatus(200)
   }).catch((e) => {
     console.log(e);
@@ -48,7 +47,7 @@ app.post('/job', cors(), (req, res) => {
 })
 
 app.get('/analysis', cors(), (req, res) => {
-  inspection.findAll().then((result) => {
+  storage.findAll().then((result) => {
     res.json(result.rows)
   }).catch((e) => {
     console.log(e);
@@ -58,7 +57,7 @@ app.get('/analysis', cors(), (req, res) => {
 
 app.get('/analysis/:commit', cors(), (req, res) => {
   const { commit } = req.params;
-  inspection.findByCommit(commit).then((result) => {
+  storage.findByCommit(commit).then((result) => {
     res.json(result.rows)
   }).catch((e) => {
     console.log(e);
