@@ -12,6 +12,7 @@ addons:
 before_install:
   - git clone https://github.com/tamarasaurus/pim-community-dev.git
   - cd pim-community-dev && git checkout $COMMIT
+  - npm install
   - cd ../
   - composer install
 
@@ -19,5 +20,4 @@ script:
   - ./src/inspectors/phpmetrics.sh
   - ./src/inspectors/phpstan.sh
   - ./src/inspectors/scrutinizer.sh
-  # - ./src/inspectors/sonarcube.sh
   - sonar-scanner -Dsonar.projectKey=tamarasaurus_pim-community-dev -Dsonar.projectBaseDir=pim-community-dev -Dsonar.analysis.commit=$COMMIT
