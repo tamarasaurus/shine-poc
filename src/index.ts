@@ -22,7 +22,7 @@ app.use(function(req, res, next) {
 
 app.post('/job/sonar', cors(), (req, res) => {
   const inspection = req.body;
-  const { commit }: any = req.body.properties;
+  const { commit }: any = req.body.properties.sonar.analysis.commit;
 
   if (!tmpData[commit]) {
     tmpData[commit] = {}
