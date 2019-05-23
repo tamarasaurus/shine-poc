@@ -13,8 +13,8 @@ before_install:
   - git clone https://github.com/tamarasaurus/pim-community-dev.git
   - cd pim-community-dev && git checkout $COMMIT
   - npm install
+  - composer require phpmetrics/phpmetrics
   - cd ../
-  - composer install
 
 script:
   - ./src/inspectors/phpmetrics.sh
