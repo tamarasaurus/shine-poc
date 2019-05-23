@@ -50,10 +50,10 @@ app.post('/hook', cors(), (req, res): void => {
   console.log(req.body)
 
   if (pullRequestIsMergedOnMaster(pullRequest)) {
-    execSync('./trigger_inspections.sh', {
-      env: { COMMIT: merge_commit_sha, USER: pullRequest.merged_by_login },
-      stdio: 'inherit'
-    })
+    const data = execSync('./trigger_inspections.sh', {
+      env: { COMMIT: merge_commit_sha, USER: pullRequest.merged_by_login } })
+
+    console.log(data);
   }
 
   res.sendStatus(200);
