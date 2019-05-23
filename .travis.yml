@@ -5,14 +5,14 @@ php:
 
 addons:
   sonarcloud:
-    organization: "tamarasaurus-github" # the key of the org you chose at step #3
+    organization: "tamarasaurus-github"
     token:
       secure: $SONAR_TOKEN
 
 before_install:
   - git clone https://github.com/tamarasaurus/pim-community-dev.git
   - cd pim-community-dev && git checkout $COMMIT
-  - composer require phpmetrics/phpmetrics phpstan/phpstan
+  - php -dmemory_limit=-1 composer require phpmetrics/phpmetrics phpstan/phpstan
   - cd ../
 
 script:
