@@ -47,7 +47,7 @@ app.get('/analysis', cors(), (req, res) => {
 
 app.get('/analysis/:commit', cors(), (req, res) => {
   const { commit } = req.params;
-  res.json(tmpData[commit]);
+  res.json(tmpData[commit] || {});
 })
 
 app.get('/index/:commit', cors(), (req, res) => {
