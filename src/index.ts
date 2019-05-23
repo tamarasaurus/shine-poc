@@ -27,7 +27,7 @@ app.post('/job/sonar', cors(), (req, res) => {
   const user = req.body.properties['sonar.analysis.user'];
   const name = 'sonar'
 
-  inspection.create({commit, user, name, inspection: data}).then(() => {
+  inspection.insert({commit, user, name, inspection: data}).then(() => {
     res.sendStatus(200)
   }).catch((e) => {
     console.log(e);
