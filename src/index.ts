@@ -7,7 +7,7 @@ const tmpData: any = {}
 const app = express()
 
 function pullRequestIsMergedOnMaster(pullRequest) {
-  if (!pullRequest) false;
+  if (!pullRequest) return false;
   const { state, base, merged } = pullRequest
   return state === 'closed' && base.ref === 'master' && merged === true
 }
