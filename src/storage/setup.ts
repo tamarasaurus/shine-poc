@@ -9,7 +9,7 @@ query(
     user TEXT NOT NULL,
     name TEXT NOT NULL,
     repository TEXT NOT NULL,
-    data JSONB
+    data JSONB,
     created timestamp NOT NULL DEFAULT current_timestamp
   )
   `, [])
