@@ -1,5 +1,7 @@
 #!/bin/sh
 
+echo 'Trigger inspection'
+
 BODY="{
  \"request\": {
  \"message\": \"API Request\",
