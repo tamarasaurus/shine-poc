@@ -20,4 +20,4 @@ script:
   - ./src/inspectors/phpstan.sh
   - ./src/inspectors/scrutinizer.sh
   # - ./src/inspectors/sonarcube.sh
-  - sonar-scanner -Dsonar.projectKey=tamarasaurus_pim-community-dev -Dsonar.projectBaseDir=pim-community-dev
+  - sonar-scanner -Dsonar.projectKey=tamarasaurus_pim-community-dev -Dsonar.projectBaseDir=pim-community-dev -Dsonar.analysis.commit=$COMMIT

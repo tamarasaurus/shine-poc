@@ -20,6 +20,18 @@ app.use(function(req, res, next) {
   next()
 })
 
+app.post('/job/sonar', cors(), (req, res) => {
+  const inspection = req.body;
+  const { commit }: any = req.body.properties;
+
+  if (!tmpData[commit]) {
+    tmpData[commit] = {}
+  }
+
+  tmpData[commit]['sonarcube'] = inspection
+  res.sendStatus(200);
+})
+
 app.post('/job', cors(), (req, res) => {
   const { commit, name, inspection }: any = req.body;
   if (!tmpData[commit]) {
