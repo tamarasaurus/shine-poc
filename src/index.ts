@@ -1,6 +1,7 @@
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
+import { execSync } from 'child_process';
 
 const tmpData: any = {}
 const app = express()
@@ -42,16 +43,13 @@ app.get('/index/:commit', cors(), (req, res) => {
 
 app.post('/hook', cors(), (req, res): void => {
   const pullRequest = req.body.pull_request;
+  console.log(pullRequest);
+
   if (pullRequestIsMergedOnMaster(pullRequest)) {
-
-    // Launch travis with ENV variable for commit
-
-    // const pipeline = new Pipeline({
-    //   user: pullRequest.merged_by.login,
-    //   commit: '',
-    // });
-
-    // pipeline.launch();
+    execSync('./trigger_inspections.sh', {
+      env: { COMMIT: '123', USER: pullRequest.merged_by_login },
+      stdio: 'inherit'
+    })
   }
 
   res.sendStatus(200);
