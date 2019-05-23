@@ -6,7 +6,7 @@ query(
   inspection (
     id SERIAL UNIQUE PRIMARY KEY NOT NULL,
     commit TEXT NOT NULL,
-    user TEXT NOT NULL,
+    github_user TEXT NOT NULL,
     name TEXT NOT NULL,
     repository TEXT NOT NULL,
     data JSONB,
