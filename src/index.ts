@@ -3,6 +3,7 @@ import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 import { execSync } from 'child_process';
 import Storage from './storage/inspection'
+import * as request from 'request-promise';
 
 const storage = new Storage();
 const app = express()
@@ -25,20 +26,23 @@ app.post('/job/sonar', cors(), (req, res) => {
   const commit = req.body.properties['sonar.analysis.commit'];
   const user = req.body.properties['sonar.analysis.user'];
 
-  try {
-    execSync('./src/inspectors/sonar.sh', {
-      env: {
-        COMMIT: commit,
-        USER: user,
-        TRAVIS_TOKEN: process.env.TRAVIS_TOKEN
+  request( {
+      method: 'POST',
+      uri: 'https://sonarcloud.io/api/issues/search?componentKeys=tamarasaurus_pim-community-dev&languages=js&types=CODE_SMELL,BUG&ps=500',
+      headers: {
+       'content-type': 'application/x-www-form-urlencoded'
       }
+  }).then((inspection) => {
+    storage.insert({commit, user, name: 'sonar', inspection}).then(() => {
+      res.sendStatus(200)
+    }).catch((e) => {
+      console.log(e);
+
     })
-  } catch (e) {
-    res.sendStatus(500);
-  }
-
-
-  res.sendStatus(200);
+  }).catch((e) => {
+    console.log(e)
+    res.sendStatus(500)
+  });
 })
 
 app.post('/job', cors(), (req, res) => {
