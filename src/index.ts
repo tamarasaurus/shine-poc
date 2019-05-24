@@ -22,17 +22,18 @@ app.use(function(req, res, next) {
 })
 
 app.post('/job/sonar', cors(), (req, res) => {
-  const inspection = req.body;
   const commit = req.body.properties['sonar.analysis.commit'];
   const user = req.body.properties['sonar.analysis.user'];
-  const name = 'sonar'
 
-  storage.insert({commit, user, name, inspection}).then(() => {
-    res.sendStatus(200)
-  }).catch((e) => {
-    console.log(e);
-    res.sendStatus(500)
+  execSync('./src/inspectors/sonar.sh', {
+    env: {
+      COMMIT: commit,
+      USER: user,
+      TRAVIS_TOKEN: process.env.TRAVIS_TOKEN
+    }
   })
+
+  res.sendStatus(200);
 })
 
 app.post('/job', cors(), (req, res) => {
@@ -80,7 +81,8 @@ app.post('/hook', cors(), (req, res): void => {
       COMMIT: commit,
       USER: pullRequest.user.login,
       TRAVIS_TOKEN: process.env.TRAVIS_TOKEN
-    }})
+    }
+  })
 
   console.log(data.toString());
   // }
