@@ -37,7 +37,7 @@ app.post('/job/sonar', cors(), (req, res) => {
       res.sendStatus(200)
     }).catch((e) => {
       console.log(e);
-
+      res.sendStatus(500)
     })
   }).catch((e) => {
     console.log(e)
