@@ -2,6 +2,7 @@ import query from './query';
 
 export default class Storage {
   insert({ commit, user, name, inspection}: { commit: string, user: string, name: string, inspection: any}) {
+    console.log('Insert', commit, name)
     return query(`
       INSERT INTO inspection (commit, github_user, name, repository, data)
       VALUES ($1, $2, $3, $4, $5)

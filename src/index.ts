@@ -25,13 +25,18 @@ app.post('/job/sonar', cors(), (req, res) => {
   const commit = req.body.properties['sonar.analysis.commit'];
   const user = req.body.properties['sonar.analysis.user'];
 
-  execSync('./src/inspectors/sonar.sh', {
-    env: {
-      COMMIT: commit,
-      USER: user,
-      TRAVIS_TOKEN: process.env.TRAVIS_TOKEN
-    }
-  })
+  try {
+    execSync('./src/inspectors/sonar.sh', {
+      env: {
+        COMMIT: commit,
+        USER: user,
+        TRAVIS_TOKEN: process.env.TRAVIS_TOKEN
+      }
+    })
+  } catch (e) {
+    res.sendStatus(500);
+  }
+
 
   res.sendStatus(200);
 })
