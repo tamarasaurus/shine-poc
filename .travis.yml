@@ -5,6 +5,8 @@ php:
 
 cache:
   directories:
+    - $HOME/.composer/cache
+    - $HOME/.cache/composer/files
     - $HOME/.composer/cache/files
 
 addons:
