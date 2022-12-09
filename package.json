@@ -20,11 +20,11 @@
   "dependencies": {
     "@types/bull": "^3.5.14",
     "@types/express": "^4.16.1",
-    "body-parser": "^1.19.0",
+    "body-parser": "^1.20.1",
     "bull": "^3.9.1",
     "bull-arena": "^2.6.3",
     "cors": "^2.8.5",
-    "express": "^4.16.4",
+    "express": "^4.18.2",
     "pg": "^7.11.0",
     "request": "^2.88.0",
     "request-promise": "^4.2.4",
