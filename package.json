@@ -24,7 +24,7 @@
     "bull": "^3.9.1",
     "bull-arena": "^2.6.3",
     "cors": "^2.8.5",
-    "express": "^4.16.4",
+    "express": "^4.17.3",
     "pg": "^7.11.0",
     "request": "^2.88.0",
     "request-promise": "^4.2.4",
